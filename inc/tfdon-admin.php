@@ -19,7 +19,7 @@ function tfdon_settings_init(  ) {
 
 	add_settings_field( 
 		'tfdon_don_list_hdr', 
-		__( 'Organization Name', 'wordpress' ), 
+		__( 'Donations List Header', 'wordpress' ), 
 		'tfdon_don_list_hdr_render', 
 		'tfdon_pluginPage', 
 		'tfdon_pluginPage_section' 
@@ -27,7 +27,7 @@ function tfdon_settings_init(  ) {
 
 	add_settings_field( 
 		'tfdon_give_to', 
-		__( 'Possible Donations List', 'wordpress' ), 
+		__( 'Donations List', 'wordpress' ), 
 		'tfdon_give_to_render', 
 		'tfdon_pluginPage', 
 		'tfdon_pluginPage_section' 
@@ -49,6 +49,26 @@ function tfdon_settings_init(  ) {
 		'tfdon_pluginPage_section' 
 	 );
 
+	// Disable the from and reply to email fields
+	// because i cant figure out how to use them with wp_mail
+	// so use the defaults that wp_mail provides
+	//
+	// add_settings_field( 
+	//	'tfdon_notification_from_email', 
+	//	__( 'Notification From Email', 'wordpress' ), 
+	//	'tfdon_notification_from_email_render', 
+	//	'tfdon_pluginPage', 
+	//	'tfdon_pluginPage_section' 
+	// );
+
+//		add_settings_field( 
+//		'tfdon_notification_reply_to_email', 
+//		__( 'Notification Reply To Email', 'wordpress' ), 
+//		'tfdon_notification_reply_to_email_render', 
+//		'tfdon_pluginPage', 
+//		'tfdon_pluginPage_section' 
+//	);
+
 	add_settings_field( 
 		'tfdon_disable_css_handle', 
 		__( 'Disable Plugin CSS', 'wordpress' ), 
@@ -69,14 +89,6 @@ function tfdon_settings_init(  ) {
 		'tfdon_donate_image', 
 		__( 'Donate image URL', 'wordpress' ), 
 		'tfdon_donate_image_render',
-		'tfdon_pluginPage', 
-		'tfdon_pluginPage_section'  
-	);
-
-		add_settings_field( 
-		'tfdon_ipn_url', 
-		__( 'PayPal IPN URL', 'wordpress' ), 
-		'tfdon_ipn_url_render',
 		'tfdon_pluginPage', 
 		'tfdon_pluginPage_section'  
 	);
@@ -143,15 +155,6 @@ function tfdon_donate_image_render(  ) {
 	<input type='text' name='tfdon_settings[tfdon_donate_image]' 
 	value='<?php if(isset($options['tfdon_donate_image']))
 	{echo $options['tfdon_donate_image'];} else{ echo("https://www.paypal.com/en_US/i/btn/btn_donate_LG.gif");} ?>' class='wide'>
-	<?php
-}
-
-function tfdon_ipn_url_render(  ) { 
-	$PaypalUrl = site_url()."/?action=IPN_Handler";
-	$options = get_option( 'tfdon_settings' );
-	echo $PaypalUrl;
-	?>
-	<p class="tfdon_ipn_instructions"><a href="https://developer.paypal.com/docs/api-basics/notifications/ipn/IPNSetup/" target="_blank">Click Here</a> for instructions on setting up Paypal IPN using this URL</p>
 	<?php
 }
 
