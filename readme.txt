@@ -7,8 +7,6 @@ Author URI:        http://www.chs-webs.com
 Author:            Corky Seevinck
 Tested up to:      5.6.1
 Version:           1.0
-License: 		       GPLv2 or later
-License URI: 	     https://www.gnu.org/licenses/gpl-2.0.html
 
 == Description ==
 
