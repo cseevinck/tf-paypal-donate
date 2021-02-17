@@ -18,16 +18,16 @@ function tfdon_settings_init(  ) {
 	);
 
 	add_settings_field( 
-		'tfdon_organization_name', 
-		__( 'Organization Name', 'wordpress' ), 
-		'tfdon_organization_name_render', 
+		'tfdon_don_list_hdr', 
+		__( 'Donations List Header', 'wordpress' ), 
+		'tfdon_don_list_hdr_render', 
 		'tfdon_pluginPage', 
 		'tfdon_pluginPage_section' 
 	);
 
 	add_settings_field( 
 		'tfdon_give_to', 
-		__( 'Possible Donations List', 'wordpress' ), 
+		__( 'Donations List', 'wordpress' ), 
 		'tfdon_give_to_render', 
 		'tfdon_pluginPage', 
 		'tfdon_pluginPage_section' 
@@ -139,12 +139,12 @@ function tfdon_notification_reply_to_email_render(  ) {
 	<?php
 }
 
-function tfdon_organization_name_render(  ) { 
+function tfdon_don_list_hdr_render(  ) { 
 
 	$options = get_option( 'tfdon_settings' );
 	?>
-	<input type='text' name='tfdon_settings[tfdon_organization_name]' value='<?php if(isset($options['tfdon_organization_name']))
-	{echo $options['tfdon_organization_name'];} ?>' class='wide' required style=''>
+	<input type='text' name='tfdon_settings[tfdon_don_list_hdr]' value='<?php if(isset($options['tfdon_don_list_hdr']))
+	{echo $options['tfdon_don_list_hdr'];} ?>' class='wide' required style=''>
 	<?php
 }
 

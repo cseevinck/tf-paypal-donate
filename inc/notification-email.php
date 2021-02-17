@@ -36,7 +36,7 @@ function send_notification_email($ipn, $verified) {
     $message = join("\r\n",$output);
 
     $tfdon_paypal_email = $options['tfdon_paypal_email'];
-    $tfdon_org = $options['tfdon_organization_name'];
+    // $tfdon_org = $options['tfdon_organization_name'];
     
     $recipient = $options['tfdon_notification_to_email'];
 
