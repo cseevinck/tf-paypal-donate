@@ -13,35 +13,21 @@
 
 .tfdon-form {
 	border: 0;
-	display:inline-block;
+	display: inline-block;
 	vertical-align:top;
 }
 
-/* .tfdon-form table tr {
-	height: 25px;
-} */
-
 .tfdon-form tr td {
-	border: 0px! important;
-	padding-left: 0px! important;
+	border: 0px;
+	padding-left: 0px;
 }
 
-/*
-.tfdon-form h2 {
-	font-size: 26px;
-} 
-
-.tfdon-form table {
-	margin: 0;
-	border: 0! important;
-}  */
-
 .tfdon-field {
-	border: 1px solid #333! important;
-	background-color:#eee ! important;
-	padding: 15px! important;
-	font-size: 15px! important;
-	width: 100%! important;
+	border: 1px solid #333;
+	background-color:#eee;
+	padding: 15px;
+	font-size: 15px;
+	width: 100%;
 }
 
 .tfdon-admin input.wide, input.wide {
