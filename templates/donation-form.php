@@ -67,10 +67,10 @@ if (isset($options['tfdon_paypal_testing'])) {
       <tr>
         <td>
           <textarea name="custom" id="cust" class="tfdon-field" rows="4" cols="40" maxlength="127" onkeyup="sync()" placeholder= "Donation Instructions - General Fund will be used if this field is left empty"></textarea>
-          <!-- for different interfaces we need to use (steal) different field names to get the instructions to paypal-->
-          <input type="hidden" id="prod" name="product_name" value="product_name start value">
-          <input type="hidden" id="item" name="item_name" value="item_name start value">
-          <input type="hidden" id="trans" name="transaction_subject" value="transaction_subject start value">
+          <!-- for different interfaces we need to use (steal) different fields to get the instructions to paypal -->
+          <input type="hidden" id="prod" name="product_name" value="">
+          <input type="hidden" id="item" name="item_name" value="">
+          <input type="hidden" id="trans" name="transaction_subject" value="">
           <!-- script to keep the various fields in sync when "custom" is changed-->
           <script>
           function sync()
