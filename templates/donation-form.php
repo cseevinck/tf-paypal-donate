@@ -10,7 +10,7 @@ $admin_post_url = esc_url( admin_url("admin-post.php"));
 -->
 
 <!-- Display list of ministries to donate to (replace cr/nl with <br>) -->  
-<h2 class="tfdon-give-to-h2"><?php echo $options['don_list_hdr']; ?></h2> 
+<h2 class="tfdon-give-to-h2"><?php echo $options['tfdon_don_list_hdr']; ?></h2> 
 <div class="tfdon-give-to-div"><?php echo nl2br($options['tfdon_give_to']); ?></div>
 
 <!-- Now set up Paypal form (sandbox for not) -->
