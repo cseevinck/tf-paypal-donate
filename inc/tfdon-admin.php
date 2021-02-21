@@ -100,6 +100,14 @@ function tfdon_settings_init(  ) {
 		'tfdon_pluginPage', 
 		'tfdon_pluginPage_section'  
 	);
+
+	add_settings_field( 
+		'tfdon_ipn_url_handle', 
+		__( 'URL to use in PayPal setup for IPN', 'wordpress' ), 
+		'tfdon_ipn_url_render', 
+		'tfdon_pluginPage', 
+		'tfdon_pluginPage_section' 
+	);
 }
 
 function tfdon_give_to_render(  ) { 
@@ -184,6 +192,7 @@ function tfdon_log_render(  ) {
 	?>
 	<input type='checkbox' id='tfdon_log' name='tfdon_settings[tfdon_log]' 
 	<?php checked( isset($options['tfdon_log']), 1 ); ?> value='1'>  <?php echo "File location & name: $file"?>
+	<?php echo site_url()."/?action=IPN_Handler"; ?>
 	<?php
 }
 
@@ -193,6 +202,14 @@ function tfdon_paypal_testing_render(  ) {
 	?>
 	<input type='checkbox' id='tfdon_paypal_testing' name='tfdon_settings[tfdon_paypal_testing]' 
 	<?php checked( isset($options['tfdon_paypal_testing']), 1 ); ?> value='1'>
+	<?php
+}
+
+function tfdon_ipn_url_render(  ) { 
+	$options = get_option( 'tfdon_settings' );
+	?>
+	<?php echo site_url()."/?action=IPN_Handler"; ?><br>
+	For instructions see: https://developer.paypal.com/docs/api-basics/notifications/ipn/IPNSetup/
 	<?php
 }
 
@@ -210,9 +227,9 @@ function tfdon_options_page(  ) {
 			<?php
 			settings_fields( 'tfdon_pluginPage' );
 			do_settings_sections( 'tfdon_pluginPage' );
-			?> 
-			</div>
-			<div class='tfdon_form_section'> 
+			?>
+		</div>
+		<div class='tfdon_form_section'> 
 			<?php
 			submit_button();
 			?>
