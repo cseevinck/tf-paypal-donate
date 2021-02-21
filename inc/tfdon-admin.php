@@ -1,13 +1,35 @@
 <?php
 if ( ! defined( 'ABSPATH' ) ) exit; 
+
+/**
+* 
+* This is used to display the admin options page for this plugin
+*
+*/
+
 add_action( 'admin_menu', 'tfdon_add_admin_menu' );
-add_action( 'admin_init', 'tfdon_settings_init' );
+// add_action( 'admin_init', 'tfdon_settings_init' );
+add_action( 'admin_init', 'tfdon_define_section_and_fields' );
 
 function tfdon_add_admin_menu(  ) { 
 	add_menu_page( 'TF Paypal Donations', 'TF Paypal Donations', 'manage_options', 'tfdon_paypal_donations', 'tfdon_options_page' );
 }
 
-function tfdon_settings_init(  ) { 
+function tfdon_define_section_and_fields(  ) { 
+
+// Array with names and descriptions of fields to be used in the admin pages
+$tfdon_fields = array (
+    "don_list_hdr" => "Donations List Header",
+    "give_to" => "Donations List", 
+    "paypal_email" => "Paypal Email Account", 
+    "notification_to_email" => "Notification To Email",
+		"donate_image" => "Donate image URL",  
+    "disable_css" => "Disable Plugin CSS", 
+    "paypal_testing" => "Use Paypal Sandbox for testing", 
+    "log" => "Turn on debug logging", 
+    "ipn_url" => "URL to use in PayPal setup for IPN"
+);
+
 	register_setting( 'tfdon_pluginPage', 'tfdon_settings' );
 
 	add_settings_section(
@@ -17,97 +39,15 @@ function tfdon_settings_init(  ) {
 	'tfdon_pluginPage'
 	);
 
-	add_settings_field( 
-		'tfdon_don_list_hdr', 
-		__( 'Donations List Header', 'wordpress' ), 
-		'tfdon_don_list_hdr_render', 
-		'tfdon_pluginPage', 
-		'tfdon_pluginPage_section' 
-	);
-
-	add_settings_field( 
-		'tfdon_give_to', 
-		__( 'Donations List', 'wordpress' ), 
-		'tfdon_give_to_render', 
-		'tfdon_pluginPage', 
-		'tfdon_pluginPage_section' 
-	);
-
-	add_settings_field( 
-		'tfdon_paypal_email', 
-		__( 'Paypal Email Account', 'wordpress' ), 
-		'tfdon_paypal_email_render', 
-		'tfdon_pluginPage', 
-		'tfdon_pluginPage_section' 
-	);
-
-	add_settings_field( 
-		'tfdon_notification_to_email', 
-		__( 'Notification To Email', 'wordpress' ), 
-		'tfdon_notification_to_email_render', 
-		'tfdon_pluginPage', 
-		'tfdon_pluginPage_section' 
-	 );
-
-	// Disable the from and reply to email fields
-	// because i cant figure out how to use them with wp_mail
-	// so use the defaults that wp_mail provides
-	//
-	// add_settings_field( 
-	//	'tfdon_notification_from_email', 
-	//	__( 'Notification From Email', 'wordpress' ), 
-	//	'tfdon_notification_from_email_render', 
-	//	'tfdon_pluginPage', 
-	//	'tfdon_pluginPage_section' 
-	// );
-
-//		add_settings_field( 
-//		'tfdon_notification_reply_to_email', 
-//		__( 'Notification Reply To Email', 'wordpress' ), 
-//		'tfdon_notification_reply_to_email_render', 
-//		'tfdon_pluginPage', 
-//		'tfdon_pluginPage_section' 
-//	);
-
-	add_settings_field( 
-		'tfdon_disable_css_handle', 
-		__( 'Disable Plugin CSS', 'wordpress' ), 
-		'tfdon_disable_css_render', 
-		'tfdon_pluginPage', 
-		'tfdon_pluginPage_section' 
-	);
-
-	add_settings_field( 
-		'tfdon_log_handle', 
-		__( 'Turn on debug logging', 'wordpress' ), 
-		'tfdon_log_render', 
-		'tfdon_pluginPage', 
-		'tfdon_pluginPage_section' 
-	);
-
-	add_settings_field( 
-		'tfdon_paypal_testing_handle', 
-		__( 'Use Paypal Sandbox for testing', 'wordpress' ), 
-		'tfdon_paypal_testing_render', 
-		'tfdon_pluginPage', 
-		'tfdon_pluginPage_section' 
-	);
-
-	add_settings_field( 
-		'tfdon_donate_image', 
-		__( 'Donate image URL', 'wordpress' ), 
-		'tfdon_donate_image_render',
-		'tfdon_pluginPage', 
-		'tfdon_pluginPage_section'  
-	);
-
-	add_settings_field( 
-		'tfdon_ipn_url_handle', 
-		__( 'URL to use in PayPal setup for IPN', 'wordpress' ), 
-		'tfdon_ipn_url_render', 
-		'tfdon_pluginPage', 
-		'tfdon_pluginPage_section' 
-	);
+	foreach ($tfdon_fields as $key => $value) {
+		add_settings_field( 
+			'tfdon_' . $key, 
+			__( $value, 'wordpress' ), 
+			'tfdon_' . $key . '_render', 
+			'tfdon_pluginPage', 
+			'tfdon_pluginPage_section' 
+			);
+		}
 }
 
 function tfdon_give_to_render(  ) { 
