@@ -4,19 +4,19 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 /** 
 * Plugin Name: TF Paypal Donations
 * Description: A plugin to accept Paypal donations using IPN. Shortcode: [tf-paypal-donations]
-* Version: 1.0 - Feb 13, 2021 
+* Version: 1.1 - Feb 21, 2021 
 */
+
+// define log file function
+include('inc/tfdon-log.php');
 
 add_shortcode('tf-paypal-donations', 'tfdon_donations');
 
 function tfdon_donations() {  
     $options = get_option( 'tfdon_settings' );
-    
-    if ( !isset($_POST['tfdon-submit'])) {
-        ob_start();
-        include('templates/donation-form.php');
-        return ob_get_clean();
-    };
+    ob_start();
+    include('templates/donation-form.php');
+    return ob_get_clean();
 }
 
 function tfdon_register_styles() {

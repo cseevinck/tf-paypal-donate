@@ -1,14 +1,17 @@
 <?php
 if ( ! defined( 'ABSPATH' ) ) exit; 
 
-$admin_post_url = esc_url( admin_url("admin-post.php"));
+/**
+ * 
+ * The below form will collect the donor's name and the giving instructions. 
+ * 
+ * After submission of the form, Paypal will send back an IPN that we need to
+ * process and acknowledge back to Paypal. Then send and email to the admin 
+ * notification email address. 
+ * 
+ */ 
+ 
 ?>
-<!-- The below form will collect the donor's name and the giving instructions. 
-     After submission of the form, Paypal will send back an IPN that we need to 
-     process and acknowledge back to Paypal. Then send and email to the admin 
-     notification email address.
--->
-<div class="tfdon-all">
 <!-- Display list of ministries to donate to (replace cr/nl with <br>) -->  
   <h2 class="tfdon-give-to-h2"><?php echo $options['tfdon_don_list_hdr']; ?></h2> 
   <div class="tfdon-give-to-div"><?php echo nl2br($options['tfdon_give_to']); ?></div>
@@ -18,7 +21,8 @@ $admin_post_url = esc_url( admin_url("admin-post.php"));
   if (isset($options['tfdon_paypal_testing'])) {
     ?><form action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post"><?php // sandbox
   } else {
-    ?><form action="https://www.paypal.com/cgi-bin/webscr" method="post"><?php // live
+    ?>
+    <form action="https://www.paypal.com/cgi-bin/webscr" method="post"><?php // live
   }
   ?>
       <input name="tfdon-submit" type="hidden" value="Submit" />
@@ -31,18 +35,19 @@ $admin_post_url = esc_url( admin_url("admin-post.php"));
       // $tfdon_org = $options['tfdon_organization_name'];
     ?>
 
-      <input type="hidden" name="business"
-          value="<?php echo $tfdon_paypal_email; ?>"> 
+      <input type="hidden" name="business" value="<?php echo $tfdon_paypal_email; ?>"> 
 
       <input type="hidden" name="cmd" value="_donations">
 
       <!-- Specify details about the contribution -->
       <input type="hidden" name="currency_code" value="USD">
 
-    <!-- Say you don't want paypal to ask for an address -->
+      <!-- Say you don't want paypal to ask for an address -->
       <input type="hidden" name="no_shipping" value="1">
 
-      <!-- Say you don't want paypal to ask for a note - not allowed with recurring donations -->
+     <input type="hidden" name="item_number" value="THe Fellowship"> <!--  did not help -->
+
+      <!-- Say you don't want paypal to ask for a note - not allowed with recurring donations --> 
       <input type="hidden" name="no_note" value="1">
 
       <!-- Fields for Donor name, email addr and donation instructions for transaction email -->
@@ -79,4 +84,3 @@ $admin_post_url = esc_url( admin_url("admin-post.php"));
         </tr>
       </table>
   </form>
-</div>

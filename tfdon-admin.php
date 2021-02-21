@@ -18,16 +18,16 @@ function tfdon_settings_init(  ) {
 	);
 
 	add_settings_field( 
-		'tfdon_don_list_hdr', 
-		__( 'Donations List Header', 'wordpress' ), 
-		'tfdon_don_list_hdr_render', 
+		'tfdon_organization_name', 
+		__( 'Organization Name', 'wordpress' ), 
+		'tfdon_organization_name_render', 
 		'tfdon_pluginPage', 
 		'tfdon_pluginPage_section' 
 	);
 
 	add_settings_field( 
 		'tfdon_give_to', 
-		__( 'Donations List', 'wordpress' ), 
+		__( 'Possible Donations List', 'wordpress' ), 
 		'tfdon_give_to_render', 
 		'tfdon_pluginPage', 
 		'tfdon_pluginPage_section' 
@@ -73,14 +73,6 @@ function tfdon_settings_init(  ) {
 		'tfdon_disable_css_handle', 
 		__( 'Disable Plugin CSS', 'wordpress' ), 
 		'tfdon_disable_css_render', 
-		'tfdon_pluginPage', 
-		'tfdon_pluginPage_section' 
-	);
-
-	add_settings_field( 
-		'tfdon_log_handle', 
-		__( 'Turn on debug logging', 'wordpress' ), 
-		'tfdon_log_render', 
 		'tfdon_pluginPage', 
 		'tfdon_pluginPage_section' 
 	);
@@ -147,12 +139,12 @@ function tfdon_notification_reply_to_email_render(  ) {
 	<?php
 }
 
-function tfdon_don_list_hdr_render(  ) { 
+function tfdon_organization_name_render(  ) { 
 
 	$options = get_option( 'tfdon_settings' );
 	?>
-	<input type='text' name='tfdon_settings[tfdon_don_list_hdr]' value='<?php if(isset($options['tfdon_don_list_hdr']))
-	{echo $options['tfdon_don_list_hdr'];} ?>' class='wide' required style=''>
+	<input type='text' name='tfdon_settings[tfdon_organization_name]' value='<?php if(isset($options['tfdon_organization_name']))
+	{echo $options['tfdon_organization_name'];} ?>' class='wide' required style=''>
 	<?php
 }
 
@@ -172,18 +164,6 @@ function tfdon_disable_css_render(  ) {
 	?>
 	<input type='checkbox' id='tfdon_disable_css' name='tfdon_settings[tfdon_disable_css]' 
 	<?php checked( isset($options['tfdon_disable_css']), 1 ); ?> value='1'>
-	<?php
-}
-
-function tfdon_log_render(  ) { 
-	$options = get_option( 'tfdon_settings' );
-
-	$upload_dir = wp_upload_dir();
-  $upload_dir = $upload_dir['basedir'];
-  $file  = $upload_dir . '/tf_paypal_donate.log';
-	?>
-	<input type='checkbox' id='tfdon_log' name='tfdon_settings[tfdon_log]' 
-	<?php checked( isset($options['tfdon_log']), 1 ); ?> value='1'>  <?php echo "File location & name: $file"?>
 	<?php
 }
 
