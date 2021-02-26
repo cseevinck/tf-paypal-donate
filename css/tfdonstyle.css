@@ -44,13 +44,69 @@
     width: 500px;
 }
 
+#tfdon-log{
+	border: none ! important;
+	padding-left: 40px;
+	padding-bottom: 50px;
+}
+
+#tfdon-log-form {
+	display: flex; 
+	align-items: center;
+}
+
+.tfdon-log-num {
+	color: #89adac;
+}
+
+#tfdon-log-form p {
+	font-size: 15px;
+	margin-top: 10px;
+	padding-right: 14px;
+}
+
+#tfdon-log-form label {
+	font-size: 15px;
+}
+
+#tfdon-log-form .tfdon-button {
+	font-size: 13px;
+	background: #89adac;
+	padding: 7px;
+	border-radius: 5px;
+	margin-left: 10px;
+	width: fit-content;
+}
+
+#tfdon-log-form input {
+	margin-bottom: 10px;
+}
+
+.tfdon-radio {
+	display: contents;
+}
+
+.tfdon-page-hdr {
+	text-align: center;
+}
+
+.tfdon-box-style {
+ 	width: 100%;
+ 	padding: .75em;
+ 	box-sizing: border-box;
+ }
+
+ .tfdon-p-margin {
+ 	margin: 0;
+ }
+
 @media only screen and (max-width: 600px) { 
 	.tfdon-all {
 		text-align: center;
 	}
 
 	.tfdon-form {
-		display: inline-table;
+	/*	display: inline-table; */
 	}
 
 	.tfdon-give-to-h2 {
@@ -60,6 +116,23 @@
 	.tfdon-give-to-div {
 		text-align: left ! important;
 		padding-left: 0;
+	}
+
+	#tfdon-log-form {
+		display: grid; 
+	}
+
+	.tfdon-radio {
+		display: flex;
+	}
+
+	#tfdon-log-form .tfdon-button {
+		margin-left: 0;
+		margin-top: 10px;
+	}
+
+	.tfdon-vis {
+	 	display: none;
 	}
 	
 }

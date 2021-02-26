@@ -2,12 +2,17 @@
 if ( ! defined( 'ABSPATH' ) ) exit; 
 
 /**
+ * This template contains two forms:
  * 
- * The below form will collect the donor's name and the giving instructions. 
+ * 1. To collect giving instructions. 
+ *    After submission of the form, Paypal will send back an IPN 
+ *    that we need to process and acknowledge back to Paypal. 
+ *    Then to send and email to the admin notification email address
+ *    containing donation details. 
  * 
- * After submission of the form, Paypal will send back an IPN that we need to
- * process and acknowledge back to Paypal. Then send and email to the admin 
- * notification email address. 
+ * 2. A form that only displays if an admin user is logged in. This
+ *    form provides a choice of which log file to display (for 
+ *    troubleshooting purposes).
  * 
  */ 
  
@@ -19,22 +24,23 @@ if ( ! defined( 'ABSPATH' ) ) exit;
   <!-- Now set up Paypal form (sandbox for not) -->
   <?php
   if (isset($options['tfdon_paypal_testing'])) {
-    ?><form action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post"><?php // sandbox
+    ?>
+    <form action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post">
+  <?php // sandbox 
   } else {
     ?>
-    <form action="https://www.paypal.com/cgi-bin/webscr" method="post"><?php // live
+    <form action="https://www.paypal.com/cgi-bin/webscr" method="post"> 
+  <?php // live  
   }
-  ?>
-      <input name="tfdon-submit" type="hidden" value="Submit" />
-  <?php 
+      ?>
+      <!-- <form method="POST" action=""> -->
+      <!-- <input name="tfdon-submit" type="hidden" value="Submit" /> -->
+      <?php 
       if (empty($options['tfdon_paypal_email'])) {
           die('Paypal email unavailable');
       }
-
       $tfdon_paypal_email = $options['tfdon_paypal_email'];
-      // $tfdon_org = $options['tfdon_organization_name'];
-    ?>
-
+      ?>
       <input type="hidden" name="business" value="<?php echo $tfdon_paypal_email; ?>"> 
 
       <input type="hidden" name="cmd" value="_donations">
@@ -45,7 +51,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
       <!-- Say you don't want paypal to ask for an address -->
       <input type="hidden" name="no_shipping" value="1">
 
-     <input type="hidden" name="item_number" value="THe Fellowship"> <!--  did not help -->
+      <input type="hidden" name="item_number" value="The Fellowship"> <!--  did not help -->
 
       <!-- Say you don't want paypal to ask for a note - not allowed with recurring donations --> 
       <input type="hidden" name="no_note" value="1">
@@ -84,3 +90,27 @@ if ( ! defined( 'ABSPATH' ) ) exit;
         </tr>
       </table>
   </form>
+
+<?php 
+// Log  file form only if admin account logged in 
+$current_user = wp_get_current_user();
+if (user_can( $current_user, 'administrator' )) { ?>
+<br>
+<div id="tfdon-log">	
+  <h2>Log File View</h2>
+  <p>Text and more text here Text and more text here Text and more text here Text and more text here Text and more text here</p>
+	<form method="POST" action="" id="tfdon-log-form">
+    <p>Select file:</p><br class="tfdon-vis">
+			<input name="tfdon_log" type="hidden" value="Submit" />
+      <div class="tfdon-radio">
+			  <input type="radio" id="Current File" name="what_file" value="<?php echo TFDON_CURRENT_LOG?>" checked>
+  			<label class="tfdon-radio-1" for="Current File">Current File</label>
+      </div>  
+      <div class="tfdon-radio">      
+  			<input type="radio" id="Older File" name="what_file" value="<?php echo TFDON_OLDER_LOG?>">
+  			<label class="tfdon-radio-2" for="Older File">Older File</label><br class="tfdon-vis">
+      </div>  
+			<input type="submit" class="button button-primary tfdon-button" value="Click to view" alt="log File choice">  
+	</form>
+</div> 
+<?php } ?>

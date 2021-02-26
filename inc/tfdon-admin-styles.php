@@ -13,6 +13,12 @@ function tfdon_custom_styles() {
       margin: 20px! important;
       padding-top: 20px! important;
     }
+    #tfdon-admin p {
+      margin: 20px! important;
+      line-height: 1.3;
+      font-size: 14px;
+      font-weight: 600;
+    }
     #tfdon-admin input.wide {
       width:500px;
     }
@@ -26,7 +32,10 @@ function tfdon_custom_styles() {
     }
     .form-table {
       margin: 20px;
-  }
+    }
+    .tfdon_bottom {
+      padding-bottom: 30px;
+    {
   </style>';
 }
 

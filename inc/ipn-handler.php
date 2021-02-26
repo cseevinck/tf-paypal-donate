@@ -2,27 +2,27 @@
 if ( ! defined( 'ABSPATH' ) ) exit; 
 
 /** 
- *  Get control and do processing if action = IPN_Handler  
+ *  Get control and do processing if action = IPN Handler  
  * 
 */
-function paypal_ipn() {
-  global $wp;
-  if (isset($_GET['action']) && $_GET['action']=='IPN_Handler') { 
-    tfdon_log("IPN_Handler POST sent by PayPal", $_POST); 
-    if(check_ipn()) {
-        ipn_request($IPN_status = true);
+function tfdon_paypal_ipn() {
+  if (isset($_GET['action']) && $_GET['action']==TFDON_IPN_ID) { 
+    tfdon_log("IPN Handler POST sent by PayPal", $_POST); 
+
+    if(tfdon_check_ipn()) {
+        tfdon_ipn_request($IPN_status = true);
     } else {
-        ipn_request($IPN_status = false);
+        tfdon_ipn_request($IPN_status = false);
     }
   } 
 }
 
 /** 
- * Check for the ipn response whether it is valid or not using check_ipn_valid 
+ * Check for the ipn response whether it is valid or not using tfdon_check_ipn_valid 
  * function. If valid, send back OK message to PayPal and send notification email 
  *  
 */
-function check_ipn() {
+function tfdon_check_ipn() {
   $ipn_response = !empty($_POST) ? $_POST : false;
   if ($ipn_response) { 
     tfdon_log("IPN sent by PayPal", $ipn_response); 
@@ -32,17 +32,17 @@ function check_ipn() {
     tfdon_log("PayPal IPN Invalid", $ipn_response); 
     return false;
   } 
-  if ($ipn_response && check_ipn_valid($ipn_response)) {
+  if ($ipn_response && tfdon_check_ipn_valid($ipn_response)) {
     header('HTTP/1.1 200 OK');        
     return true;
   }
 }
 
 /** 
- * Now, if everything goes fine then we get ipn status true for ipn_request  
- * function otherwise false. So. lets’s come to the ipn_request function  
+ * Now, if everything goes fine then we get ipn status true for tfdon_ipn_request  
+ * function otherwise false. So. lets’s come to the tfdon_ipn_request function  
 */
-function ipn_request($IPN_status) {		
+function tfdon_ipn_request($IPN_status) {		
   $ipn_response = !empty($_POST) ? $_POST : false;
   $ipn_response['IPN_status'] = ( $IPN_status == true ) ? 'Verified' : 'Invalid';
 
@@ -55,10 +55,9 @@ function ipn_request($IPN_status) {
  * response to validate the response. 
  * 
 */
-function check_ipn_valid($ipn_response) {
-
+function tfdon_check_ipn_valid($ipn_response) {
   $options = get_option( 'tfdon_settings' );
-
+// Sandbox or not 
   if (isset($options['tfdon_paypal_testing'])) {
     $paypal_adr = 'https://ipnpb.sandbox.paypal.com/cgi-bin/webscr'; // sandbox mode
   } else {
@@ -77,18 +76,20 @@ function check_ipn_valid($ipn_response) {
       'decompress' => false,
       'user-agent' => 'tf-paypal-donations-ipn/1.0'
   );
-  // Post back to get a response
+  // Post back to PayPal & get response
   $response = wp_safe_remote_post($paypal_adr, $params);
 
   // check to see if the request was valid
   if (!is_wp_error($response) && $response['response']['code'] >= 200 && $response['response']['code'] < 300 && strstr($response['body'], 'VERIFIED')) {
  
-      tfdon_log("Verification from PayPal - VERIFIED response code", $response['response']['code']);
-      tfdon_log("Verification from PayPal - VERIFIED", var_export($response, true), "string");
-      send_notification_email($ipn_response, $verified = true); // Send the notification  
+      tfdon_log("Verification from PayPal - VERIFIED response code ", $response['response']['code']);
+      tfdon_log("Verification from PayPal - VERIFIED (whole message) ", $response);
+
+      tfdon_send_notification_email($ipn_response, $verified = true); // Send the notification  
       return true;
   }
-  // Send notification anyway, but warn the user
+
+  // Not verified: Send notification anyway, but warn the user
   
   // Try to put error message out
   $error_string = $response->get_error_message();
@@ -96,8 +97,8 @@ function check_ipn_valid($ipn_response) {
 
   // Put entries into log file
   tfdon_log("Verification from PayPal - NOT VERIFIED response code", $response['response']['code']);
-  tfdon_log("Verification from PayPal - NOT VERIFIED", var_export($response, true)); 
-  send_notification_email($ipn_response, $verified = false); // Send the notification  
+
+  tfdon_send_notification_email($ipn_response, $verified = false); // Send the notification  
   return false;
 }
 ?>

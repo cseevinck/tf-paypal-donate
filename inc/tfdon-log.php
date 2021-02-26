@@ -3,11 +3,12 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 /** 
  *  Custom log file handler 
- *  This log file is to debug the tf-paypal-donations plugin. Entries are placed in the 
- *  uploads folder. This function will determine the type of data ($message) and will 
- *  attempt to present the data in a readable fashion. In cases where the data is allready 
- *  in a readable format, the $forcestring argument will cause the function to place the data
- *  into the file without attempting to format it at all.      
+ *  This log file is to debug the tf-paypal-donations plugin. Entries are placed 
+ *  in the uploads folder. This function will determine the type of data 
+ *  ($message) and will try to present the data in a readable fashion. In cases 
+ *  where the data is allready in a readable format, the $forcestring argument 
+ *  will cause the function to place the data into the file without attempting 
+ *  to format it at all.      
  * 
  *  Use like this:
  *    1. tfdon_log("description of log entry", "data to log");
@@ -40,10 +41,14 @@ function tfdon_log($description, $message, $forceformat = "") {
     $message = $message . "\n";
   } else
   if (gettype ( $message ) == "array" || gettype ( $message ) == "object") {
-    $message = pretty_it($message);
+    $message = tfdon_pretty_it($message);
   }
-  else {
-    $message = json_encode($message) . "\n";
+  else 
+  {
+    $out = "<pre>" . $message;
+    // $message = json_encode($message) . "\n";
+    $out = json_encode($message) . "</pre>";
+    $message = $out;
   }
 
   file_put_contents($file, "\n" . date('Y-m-d h:i:s') . " :: " . $description . "\n   " . $message, FILE_APPEND);
@@ -61,10 +66,11 @@ function tfdon_log($description, $message, $forceformat = "") {
  *  Pretty up for array and object entries  
  * 
 */
-function pretty_it($arr){
+function tfdon_pretty_it($arr){
     $start = "'";
     foreach ($arr as $key => $value) {
         $data = $data."".$start."".$key."'=>'".$value."',\n";
+       // $start = "   '";
         $start = "   '";
     }
     return $data;

@@ -6,7 +6,7 @@ Tags:              paypal, donations using IPN
 Author URI:        http://www.chs-webs.com
 Author:            Corky Seevinck
 Tested up to:      5.6.1
-Version:           1.1
+Version:           1.2
 
 == Description ==
 
@@ -24,6 +24,9 @@ Orginal plugin by Peter VanKoughnett. Too many changes to keep giving him credit
 
 == Upgrade Notice ==
 
+=1.2=
+More cleanup and refining of logging feature
+Change css tags and function names to be unique (tfdon at start of names)
 =1.1=
 Cleanup and add logging feature
 =1.0=

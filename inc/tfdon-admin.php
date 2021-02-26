@@ -8,7 +8,6 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 */
 
 add_action( 'admin_menu', 'tfdon_add_admin_menu' );
-// add_action( 'admin_init', 'tfdon_settings_init' );
 add_action( 'admin_init', 'tfdon_define_section_and_fields' );
 
 function tfdon_add_admin_menu(  ) { 
@@ -16,19 +15,18 @@ function tfdon_add_admin_menu(  ) {
 }
 
 function tfdon_define_section_and_fields(  ) { 
-
-// Array with names and descriptions of fields to be used in the admin pages
-$tfdon_fields = array (
-    "don_list_hdr" => "Donations List Header",
-    "give_to" => "Donations List", 
-    "paypal_email" => "Paypal Email Account", 
-    "notification_to_email" => "Notification To Email",
-		"donate_image" => "Donate image URL",  
-    "disable_css" => "Disable Plugin CSS", 
-    "paypal_testing" => "Use Paypal Sandbox for testing", 
-    "log" => "Turn on debug logging", 
-    "ipn_url" => "URL to use in PayPal setup for IPN"
-);
+	// Array with names and descriptions of fields to be used in the admin pages
+	$tfdon_fields = array (
+			"don_list_hdr" => "Donations List Header",
+			"give_to" => "Donations List", 
+			"paypal_email" => "Paypal Email Account", 
+			"notification_to_email" => "Notification To Email",
+			"donate_image" => "Donate image URL",  
+			"disable_css" => "Disable Plugin CSS", 
+			"paypal_testing" => "Use Paypal Sandbox for testing", 
+			"log" => "Turn on debug logging", 
+			"ipn_url" => "URL to use in PayPal setup for IPN"
+	);
 
 	register_setting( 'tfdon_pluginPage', 'tfdon_settings' );
 
@@ -60,7 +58,6 @@ function tfdon_give_to_render(  ) {
 }
 
 function tfdon_paypal_email_render(  ) { 
-
 	$options = get_option( 'tfdon_settings' );
 	?>
 	<input type='email' name='tfdon_settings[tfdon_paypal_email]' value='<?php if(isset($options['tfdon_paypal_email']))
@@ -69,7 +66,6 @@ function tfdon_paypal_email_render(  ) {
 }
 
 function tfdon_notification_to_email_render(  ) { 
-
 	$options = get_option( 'tfdon_settings' );
 	?>
 		<input type='email' name='tfdon_settings[tfdon_notification_to_email]' value='<?php if(isset($options['tfdon_notification_to_email']))
@@ -78,7 +74,6 @@ function tfdon_notification_to_email_render(  ) {
 }
 
 function tfdon_notification_from_email_render(  ) { 
-
 	$options = get_option( 'tfdon_settings' );
 	?>
 	<input type='email' name='tfdon_settings[tfdon_notification_from_email]' value='<?php if(isset($options['tfdon_notification_from_email']))
@@ -87,7 +82,6 @@ function tfdon_notification_from_email_render(  ) {
 }
 
 function tfdon_notification_reply_to_email_render(  ) { 
-
 	$options = get_option( 'tfdon_settings' );
 	?>
 	<input type='email' name='tfdon_settings[tfdon_notification_reply_to_email]' value='<?php if(isset($options['tfdon_notification_reply_to_email']))
@@ -96,7 +90,6 @@ function tfdon_notification_reply_to_email_render(  ) {
 }
 
 function tfdon_don_list_hdr_render(  ) { 
-
 	$options = get_option( 'tfdon_settings' );
 	?>
 	<input type='text' name='tfdon_settings[tfdon_don_list_hdr]' value='<?php if(isset($options['tfdon_don_list_hdr']))
@@ -105,7 +98,6 @@ function tfdon_don_list_hdr_render(  ) {
 }
 
 function tfdon_donate_image_render(  ) { 
-
 	$options = get_option( 'tfdon_settings' );
 	?>
 	<input type='text' name='tfdon_settings[tfdon_donate_image]' 
@@ -115,7 +107,6 @@ function tfdon_donate_image_render(  ) {
 }
 
 function tfdon_disable_css_render(  ) { 
-
 	$options = get_option( 'tfdon_settings' );
 	?>
 	<input type='checkbox' id='tfdon_disable_css' name='tfdon_settings[tfdon_disable_css]' 
@@ -125,19 +116,18 @@ function tfdon_disable_css_render(  ) {
 
 function tfdon_log_render(  ) { 
 	$options = get_option( 'tfdon_settings' );
-
+	
 	$upload_dir = wp_upload_dir();
   $upload_dir = $upload_dir['basedir'];
-  $file  = $upload_dir . '/tf_paypal_donate.log';
+  $file_curr  = $upload_dir . '/' . TFDON_CURRENT_LOG;
 	?>
 	<input type='checkbox' id='tfdon_log' name='tfdon_settings[tfdon_log]' 
-	<?php checked( isset($options['tfdon_log']), 1 ); ?> value='1'>  <?php echo "File location & name: $file"?>
-	<?php echo site_url()."/?action=IPN_Handler"; ?>
+	<?php checked( isset($options['tfdon_log']), 1 ); ?> value='1'>  <?php echo "File location & names: " .$upload_dir . '/' . TFDON_CURRENT_LOG
+					 . " and ... " . TFDON_OLDER_LOG; ?>
 	<?php
 }
 
 function tfdon_paypal_testing_render(  ) { 
-
 	$options = get_option( 'tfdon_settings' );
 	?>
 	<input type='checkbox' id='tfdon_paypal_testing' name='tfdon_settings[tfdon_paypal_testing]' 
@@ -148,7 +138,7 @@ function tfdon_paypal_testing_render(  ) {
 function tfdon_ipn_url_render(  ) { 
 	$options = get_option( 'tfdon_settings' );
 	?>
-	<?php echo site_url()."/?action=IPN_Handler"; ?><br>
+	<?php echo site_url()."/?action=". TFDON_IPN_ID; ?><br>
 	For instructions see: https://developer.paypal.com/docs/api-basics/notifications/ipn/IPNSetup/
 	<?php
 }
@@ -159,22 +149,22 @@ function tfdon_settings_section_callback(  ) {
 
 function tfdon_options_page(  ) { 
 	?>
+<div id='tfdon-admin'>
 	<form action='options.php' method='post'>
 		<input type="hidden" name="destination" value="<?php echo admin_url('admin.php?page=tfdon_donations')?>"/>
-
-		<div id='tfdon-admin'>
 			<h2>TF Paypal Donations<br>Setup Page</h2>
 			<?php
 			settings_fields( 'tfdon_pluginPage' );
 			do_settings_sections( 'tfdon_pluginPage' );
+			tfdon_log("log in admin 1: ", $_POST); 
 			?>
-		</div>
-		<div class='tfdon_form_section'> 
-			<?php
-			submit_button();
+		<div class='tfdon_form_section'>  
+			<?php	submit_button();
+			tfdon_log("log in admin 2: ", $_POST); 
 			?>
-		</div>
+	 	</div> 
 	</form>
-	<?php
+</div>
+<?php
 }
 ?>

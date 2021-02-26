@@ -4,19 +4,38 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 /** 
 * Plugin Name: TF Paypal Donations
 * Description: A plugin to accept Paypal donations using IPN. Shortcode: [tf-paypal-donations]
-* Version: 1.1 - Feb 21, 2021 
+* Version: 1.2 - Feb 26, 2021 
 */
+
+const TFDON_CURRENT_LOG = "tf_paypal_donate.log";
+const TFDON_OLDER_LOG = "tf_paypal_donate_old.log";
+const TFDON_IPN_ID = "IPN_Handler";
 
 // define log file function
 include('inc/tfdon-log.php');
 
 add_shortcode('tf-paypal-donations', 'tfdon_donations');
+/**
+ * tfdon_donations
+ * 
+ * We will get control here at page init and, 
+ * when the button on the log form page is clicked
+ * 
+ */
 
 function tfdon_donations() {  
-    $options = get_option( 'tfdon_settings' );
-    ob_start();
-    include('templates/donation-form.php');
-    return ob_get_clean();
+    if ( !isset($_POST['tfdon_log'] )) {
+        tfdon_log("regular entry - display form: ", $_POST); 
+        $options = get_option( 'tfdon_settings' );
+        ob_start();
+        include('templates/donation-form.php');
+        return ob_get_clean();
+    }
+    else {
+        tfdon_log("log entry: ", $_POST); 
+        tfdon_display_log_file ($_POST["what_file"]);
+        return;
+    }
 }
 
 function tfdon_register_styles() {
@@ -35,7 +54,7 @@ if(!$disable_css) {
  * 
 */
 
-add_action( 'init', 'paypal_ipn' );
+add_action( 'init', 'tfdon_paypal_ipn' );
 include('inc/ipn-handler.php');
 include('inc/notification-email.php');
 
@@ -45,3 +64,4 @@ include('inc/notification-email.php');
 */   
 include('inc/tfdon-admin.php');
 include('inc/tfdon-admin-styles.php');
+include('inc/tfdon-display-logs.php');
