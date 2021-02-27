@@ -25,7 +25,7 @@ add_shortcode('tf-paypal-donations', 'tfdon_donations');
 
 function tfdon_donations() {  
     if ( !isset($_POST['tfdon_log'] )) {
-        tfdon_log("regular entry - display form: ", $_POST); 
+        tfdon_log("entry @ tfdon_donations for donation form display ", ""); 
         $options = get_option( 'tfdon_settings' );
         ob_start();
         include('templates/donation-form.php');

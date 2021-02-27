@@ -31,27 +31,26 @@ function tfdon_log($description, $message, $forceformat = "") {
   if (!isset($options['tfdon_log'])) {
     return;
   } 
- 
+
   $upload_dir = wp_upload_dir();
   $upload_dir = $upload_dir['basedir'];
   $file  = $upload_dir . '/tf_paypal_donate.log';
   $file_old  = $upload_dir . '/tf_paypal_donate_old.log';
 
   if ($forceformat == "string"){
-    $message = $message . "\n";
+    $message = $message;
+    $description = "(string): " . $description;
   } else
   if (gettype ( $message ) == "array" || gettype ( $message ) == "object") {
+    $description = "(array|object): " . $description;
     $message = tfdon_pretty_it($message);
   }
-  else 
-  {
-    $out = "<pre>" . $message;
-    // $message = json_encode($message) . "\n";
-    $out = json_encode($message) . "</pre>";
-    $message = $out;
+  else {
+    $description = "(unknown): " . $description;
+    $message = ($message);
   }
-
-  file_put_contents($file, "\n" . date('Y-m-d h:i:s') . " :: " . $description . "\n   " . $message, FILE_APPEND);
+ 
+  file_put_contents($file, "\n<span class='tfdon-log-date-desc'>" . date('Y-m-d h:i:s') . " :: " . $description . "</span>\n   " . $message, FILE_APPEND);
   clearstatcache();
   $siz = filesize ($file);
   if ($siz > 80000){
@@ -70,7 +69,6 @@ function tfdon_pretty_it($arr){
     $start = "'";
     foreach ($arr as $key => $value) {
         $data = $data."".$start."".$key."'=>'".$value."',\n";
-       // $start = "   '";
         $start = "   '";
     }
     return $data;

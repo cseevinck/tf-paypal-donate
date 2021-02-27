@@ -81,23 +81,22 @@ function tfdon_check_ipn_valid($ipn_response) {
 
   // check to see if the request was valid
   if (!is_wp_error($response) && $response['response']['code'] >= 200 && $response['response']['code'] < 300 && strstr($response['body'], 'VERIFIED')) {
- 
-      tfdon_log("Verification from PayPal - VERIFIED response code ", $response['response']['code']);
-      tfdon_log("Verification from PayPal - VERIFIED (whole message) ", $response);
-
       tfdon_send_notification_email($ipn_response, $verified = true); // Send the notification  
+      tfdon_log("Verification from PayPal - VERIFIED response code ", $response['response']['code']);
+
+    //  $ve = '<pre>' . var_export($response, true) . '</pre>';
+    //  tfdon_log("Verification from PayPal - VERIFIED (whole message) ", $ve, "string");
       return true;
   }
 
-  // Not verified: Send notification anyway, but warn the user
+  // Not verified: Send notification anyway, but warn the user 
   
   // Try to put error message out
   $error_string = $response->get_error_message();
-  tfdon_log("Verification from PayPal - NOT VERIFIED - Error String", $error_string);
 
   // Put entries into log file
   tfdon_log("Verification from PayPal - NOT VERIFIED response code", $response['response']['code']);
-
+ // tfdon_log("Verification from PayPal - NOT VERIFIED - Error String", $error_string, "json");
   tfdon_send_notification_email($ipn_response, $verified = false); // Send the notification  
   return false;
 }

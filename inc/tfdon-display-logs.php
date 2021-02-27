@@ -26,7 +26,7 @@ function tfdon_display_log_file ($what_file=null){
   <h1 class="tfdon-page-hdr">Log File Display</h1> 
   <?php
   $log_data = file_get_contents ($file);
-  ?><div class="tfdon-box-style" style="white-space:pre-wrap;"><?php
+  ?><div class="tfdon-box-style"><?php
   echo tfdonConvertPlainTextToHTML($log_data);
   ?></div><?php
 }
@@ -62,11 +62,10 @@ function tfdonConvertPlainTextToHTML($s) {
    $cnt = 1;
    $backn = chr(0x7f);
    while ($cnt == 1) {
+      //$newnum = chr(0x0a) . "<span class='tfdon-log-num'>" . sprintf('%05d', $linenum++) . '</span>' . "  "; 
       $newnum = chr(0x0a) . "<span class='tfdon-log-num'>" . sprintf('%05d', $linenum++) . '</span>' . "  "; 
       $s = str_replace_first($backn, $newnum, $s, $cnt);
     }
-
-
    return $s;
 }
 
@@ -93,7 +92,7 @@ function str_replace_first($from, $to, $content, &$count)
  *    
  */
 function tfdon_rep_num_chrs ($num, $chr ,$str) {
-   // build string with lf + $num times space 
+   // build string with lf + $num times space  
    $rplc = $chr;
    $spc = "\n";
    for ($x=$num; $x >= 0; $x-- ) {
