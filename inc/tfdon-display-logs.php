@@ -17,8 +17,8 @@ function tfdon_display_log_file ($what_file=null){
   // return if file does not exist
   if (!file_exists ( $file )) {
     ?>
-    <h1>Log file does not exist</h1>
-    <p>file name=<?php echo $file;?></p>
+    <h1 class="tfdon-page-hdr">Log file does not exist</h1>
+    <p class="tfdon-page-hdr">file name=<?php echo $file;?></p>
     <?php 
     return;
   }
