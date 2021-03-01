@@ -15,7 +15,16 @@ get_header(); ?>
 
 			<?php
 			while ( have_posts() ) : the_post();
-				get_template_part( 'template-parts/content', 'page' );
+			//	get_template_part( 'template-parts/content', 'page' );
+				?><div class="entry-content tfdon-content">
+					<?php
+						the_content();
+
+						if ( ! $is_page_builder_used )
+							wp_link_pages( array( 'before' => '<div class="page-links">' . esc_html__( 'Pages:', 'Divi' ), 'after' => '</div>' ) );
+					?>
+					</div> <!-- .entry-content -->
+					<?php
         // Put code here for display log file
 					$file = $_GET['file']; 
 					tfdon_log("Inside log-display: file= ", $file); 

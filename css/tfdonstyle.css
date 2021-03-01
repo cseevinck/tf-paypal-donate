@@ -51,6 +51,10 @@ article.page {
 	background-color: #fff;
 }
 
+.tfdon-content {
+	padding-left: 40px;
+} 
+
 #tfdon-page {
 	border: none ! important;
 	padding-left: 40px;
@@ -79,25 +83,28 @@ article.page {
 
 #tfdon-log-form p {
 	font-size: 15px;
-	margin-top: 10px;
+	margin-top: 0;
 	padding-right: 14px;
 }
 
 #tfdon-log-form label {
 	font-size: 15px;
+	padding-right: 10px;
 }
 
 #tfdon-log-form .tfdon-button {
-	font-size: 13px;
+	font-size: 14px;
 	background: #89adac;
 	padding: 7px;
 	border-radius: 5px;
 	margin-left: 10px;
 	width: fit-content;
+	color: white;
+	font-weight: 600;
 }
 
 #tfdon-log-form input {
-	margin-bottom: 10px;
+	margin-bottom: 3px;
 }
 
 .tfdon-radio {
