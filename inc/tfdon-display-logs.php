@@ -23,12 +23,17 @@ function tfdon_display_log_file ($what_file=null){
     return;
   }
   ?>
-  <h1 class="tfdon-page-hdr">Log File Display</h1> 
+  <div id="tfdon-page"> 
+    <?php
+    $log_data = file_get_contents ($file);
+    ?>
+    <div class="tfdon-box-style">
+    <?php
+    echo tfdonConvertPlainTextToHTML($log_data);
+    ?>
+    </div>
+  </div>
   <?php
-  $log_data = file_get_contents ($file);
-  ?><div class="tfdon-box-style"><?php
-  echo tfdonConvertPlainTextToHTML($log_data);
-  ?></div><?php
 }
 /**
  *  Convert plain text to HTML
@@ -47,11 +52,6 @@ function tfdonConvertPlainTextToHTML($s) {
    $s = preg_replace('/\n\n+/','</p><p class="tfdon-p-margin">~~N-n~--',$s);
    $s = str_replace('~~N-n~--',"\n",$s);
    $s = "<p class='tfdon-p-margin'>\n$s\n</p>";
-  
-   // increase spacing in indents
-   //for ($x = 20; $x >= 3; $x--) {
-   //   $s = tfdon_rep_num_chrs ($x ,chr(0x7f) ,$s);
-   //}
 
    // make all linefeeds into 7F 
    $s = str_replace("\n",chr(0x7f),$s); 
@@ -62,7 +62,6 @@ function tfdonConvertPlainTextToHTML($s) {
    $cnt = 1;
    $backn = chr(0x7f);
    while ($cnt == 1) {
-      //$newnum = chr(0x0a) . "<span class='tfdon-log-num'>" . sprintf('%05d', $linenum++) . '</span>' . "  "; 
       $newnum = chr(0x0a) . "<span class='tfdon-log-num'>" . sprintf('%05d', $linenum++) . '</span>' . "  "; 
       $s = str_replace_first($backn, $newnum, $s, $cnt);
     }

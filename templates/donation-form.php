@@ -1,7 +1,9 @@
 <?php
 if ( ! defined( 'ABSPATH' ) ) exit; 
-
-/**
+/*
+Template Name: TFDON Log Display
+ *
+ *
  * This template contains two forms:
  * 
  * 1. To collect giving instructions. 
@@ -33,8 +35,6 @@ if ( ! defined( 'ABSPATH' ) ) exit;
   <?php // live  
   }
       ?>
-      <!-- <form method="POST" action=""> -->
-      <!-- <input name="tfdon-submit" type="hidden" value="Submit" /> -->
       <?php 
       if (empty($options['tfdon_paypal_email'])) {
           die('Paypal email unavailable');

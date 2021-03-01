@@ -24,6 +24,8 @@ Orginal plugin by Peter VanKoughnett. Too many changes to keep giving him credit
 
 == Upgrade Notice ==
 
+=1.3=
+Add separate page for log display and allow for defining that page in admin
 =1.2=
 More cleanup and refining of logging feature
 Change css tags and function names to be unique (tfdon at start of names)

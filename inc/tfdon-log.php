@@ -26,6 +26,10 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  *  The file will be in the WordPress uploads directory
  * 
 */
+
+const TFDON_CURRENT_LOG = "tf_paypal_donate.log";
+const TFDON_OLDER_LOG = "tf_paypal_donate_old.log";
+
 function tfdon_log($description, $message, $forceformat = "") { 
   $options = get_option( 'tfdon_settings' ); // return if log turned off
   if (!isset($options['tfdon_log'])) {

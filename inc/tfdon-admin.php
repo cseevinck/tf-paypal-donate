@@ -25,6 +25,7 @@ function tfdon_define_section_and_fields(  ) {
 			"disable_css" => "Disable Plugin CSS", 
 			"paypal_testing" => "Use Paypal Sandbox for testing", 
 			"log" => "Turn on debug logging", 
+			"log_display" => "URL of page for log file displays",  
 			"ipn_url" => "URL to use in PayPal setup for IPN"
 	);
 
@@ -124,6 +125,15 @@ function tfdon_log_render(  ) {
 	<input type='checkbox' id='tfdon_log' name='tfdon_settings[tfdon_log]' 
 	<?php checked( isset($options['tfdon_log']), 1 ); ?> value='1'>  <?php echo "File location & names: " .$upload_dir . '/' . TFDON_CURRENT_LOG
 					 . " and ... " . TFDON_OLDER_LOG; ?>
+	<?php
+}
+
+function tfdon_log_display_render(  ) { 
+	$options = get_option( 'tfdon_settings' );
+	?>
+	<input type='text' name='tfdon_settings[tfdon_log_display]' 
+	value='<?php if(isset($options['tfdon_log_display']))
+	{echo $options['tfdon_log_display'];} ?>' class='wide' required>
 	<?php
 }
 
