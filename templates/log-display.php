@@ -6,8 +6,8 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  * Template that displays log file entries 
  */
 
-include('inc/tfdon-log.php');
-include('inc/tfdon-display-logs.php');
+require_once (ABSPATH . PLUGINDIR .'/tf-paypal-donate/inc/tfdon-log.php');
+require_once (ABSPATH . PLUGINDIR .'/tf-paypal-donate/inc/tfdon-display-logs.php');
 get_header(); ?>
 
 	<div id="primary" class="featured-content content-area">

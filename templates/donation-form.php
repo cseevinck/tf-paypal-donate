@@ -37,7 +37,7 @@ Template Name: TFDON Log Display
       ?>
       <?php 
       if (empty($options['tfdon_paypal_email'])) {
-          die('Paypal email unavailable');
+          die('TF Paypal Donations Setup Page: Paypal email unavailable');
       }
       $tfdon_paypal_email = $options['tfdon_paypal_email'];
       ?>
@@ -92,25 +92,44 @@ Template Name: TFDON Log Display
   </form>
 
 <?php 
-// Log  file form only if admin account logged in 
+// Log  file form only if admin account logged in and its not a delete action
 $current_user = wp_get_current_user();
-if (user_can( $current_user, 'administrator' )) { ?>
-<br>
-<div id="tfdon-log">	
-  <h2>Log File View</h2>
-  <p>Text and more text here Text and more text here Text and more text here Text and more text here Text and more text here</p>
-	<form method="POST" action="" id="tfdon-log-form">
-    <p>Select file:</p><br class="tfdon-vis">
-			<input name="tfdon_log" type="hidden" value="Submit" />
-      <div class="tfdon-radio">
-			  <input type="radio" id="Current File" name="what_file" value="<?php echo TFDON_CURRENT_LOG?>" checked>
-  			<label class="tfdon-radio-1" for="Current File">Current File</label>
-      </div>  
-      <div class="tfdon-radio">      
-  			<input type="radio" id="Older File" name="what_file" value="<?php echo TFDON_OLDER_LOG?>">
-  			<label class="tfdon-radio-2" for="Older File">Older File</label><br class="tfdon-vis">
-      </div>  
-			<input type="submit" class="button button-primary tfdon-button" value="Click to view" alt="log File choice">  
-	</form>
-</div> 
-<?php } ?>
+if (user_can( $current_user, 'administrator' ) && (!isset ($_GET['file']))) { 
+  ?>
+  <div id="tfdon-log">	
+    <h2>Log File View</h2>
+    <p>This logging feature will keep up to two files. When the first file (tf_paypal_donate.log) reaches a predefined size, it will be renamed to tf_paypal_donate_old.log and a new tf_paypal_donate.log will be created. Use the selectors below to view a file or to delete all files.</p>
+    <form method="POST" action="" class="tfdon-log-form">
+      <p>Select file:</p><br class="tfdon-vis">
+        <input name="tfdon_log" type="hidden" value="Submit" />
+        <div class="tfdon-radio">
+          <input type="radio" id="Current File" name="what_file" value="<?php echo TFDON_CURRENT_LOG?>" checked>
+          <label class="tfdon-radio-1" for="Current File">Current File</label>
+        </div>  
+        <div class="tfdon-radio">      
+          <input type="radio" id="Older File" name="what_file" value="<?php echo TFDON_OLDER_LOG?>">
+          <label class="tfdon-radio-2" for="Older File">Older File</label><br class="tfdon-vis">
+        </div>  
+        <input type="submit" class="button button-primary tfdon-button" value="Click to view" alt="log File choice">  
+    </form>
+    <form method="POST" action="" class="tfdon-log-delete-form">
+      <p>Delete files (Do this to isolate a problem) :</p><br class="tfdon-vis">
+        <input name="tfdon_log_delete" type="hidden" value="Submit" /> 
+        <input type="submit" class="button button-primary tfdon-button" value="Click to Delete Log Files" alt="log File delete">  
+    </form>
+  </div> 
+  <?php
+  }
+  if ((isset ($_GET['file'])) && ($_GET['file'] == 'deleted')) {
+  ?>
+  <div id="tfdon-log">
+    <h2>Log Files Deleted</h2>
+  </div>  
+  <!-- Remove query string from URL -->
+  <script>
+    var newURL = location.href.split("?")[0];
+    window.history.pushState('object', document.title, newURL);
+  </script>
+  <?php
+  }
+  ?>

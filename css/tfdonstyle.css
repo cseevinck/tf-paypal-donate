@@ -35,6 +35,7 @@
 .tfdon-field {
 	border: 1px solid #333;
 	background-color:#eee;
+	height: 100px ! important;
 	padding: 15px;
 	font-size: 15px;
 	width: 100%;
@@ -62,13 +63,13 @@ article.page {
 	background-color:#fff;
 }
 
-#tfdon-log{
+#tfdon-log {
 	border: none ! important;
 	padding-left: 40px;
 	padding-bottom: 50px;
 }
 
-#tfdon-log-form {
+.tfdon-log-form {
 	display: flex; 
 	align-items: center;
 }
@@ -81,29 +82,29 @@ article.page {
 	font-weight: 700;
 }
 
-#tfdon-log-form p {
+.tfdon-log-form p {
 	font-size: 15px;
 	margin-top: 0;
 	padding-right: 14px;
 }
 
-#tfdon-log-form label {
+.tfdon-log-form label {
 	font-size: 15px;
 	padding-right: 10px;
 }
 
-#tfdon-log-form .tfdon-button {
-	font-size: 14px;
-	background: #89adac;
-	padding: 7px;
-	border-radius: 5px;
-	margin-left: 10px;
-	width: fit-content;
-	color: white;
-	font-weight: 600;
+.tfdon-button {
+	font-size: 14px ! important;
+	background-color: #89adac ! important;
+	padding: 7px ! important;
+	border-radius: 5px ! important;
+	margin-left: 10px ! important;
+	width: fit-content ! important;
+	color: white ! important;
+	font-weight: 600 ! important;
 }
 
-#tfdon-log-form input {
+.tfdon-log-form input {
 	margin-bottom: 3px;
 }
 
@@ -113,6 +114,18 @@ article.page {
 
 .tfdon-page-hdr {
 	text-align: center;
+}
+
+.tfdon-log-delete-form {
+	padding-top: 50px;
+	display: flex;
+	align-items: center;
+}
+
+.tfdon-log-delete-form p {
+	font-size: 15px;
+	margin-top: 15px;
+	padding-right: 14px;
 }
 
 .tfdon-box-style {
@@ -150,7 +163,11 @@ article.page {
 		padding-left: 0;
 	}
 
-	#tfdon-log-form {
+	.tfdon-log-form {
+		display: grid; 
+	}
+
+	.tfdon-log-delete-form {
 		display: grid; 
 	}
 
@@ -158,9 +175,9 @@ article.page {
 		display: flex;
 	}
 
-	#tfdon-log-form .tfdon-button {
-		margin-left: 0;
-		margin-top: 10px;
+	.tfdon-button {
+		margin-left: 0 ! important;
+		margin-top: 10px ! important;
 	}
 
 	.tfdon-vis {

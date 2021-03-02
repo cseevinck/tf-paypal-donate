@@ -32,14 +32,18 @@ const TFDON_OLDER_LOG = "tf_paypal_donate_old.log";
 
 function tfdon_log($description, $message, $forceformat = "") { 
   $options = get_option( 'tfdon_settings' ); // return if log turned off
+  // if (empty($options['tfdon_log_display'])) {
+  //   echo ('TF Paypal Donations Setup Page: URL of page for log file displays is empty!'); 
+  //   return; 
+  // } 
   if (!isset($options['tfdon_log'])) {
     return;
   } 
 
   $upload_dir = wp_upload_dir();
   $upload_dir = $upload_dir['basedir'];
-  $file  = $upload_dir . '/tf_paypal_donate.log';
-  $file_old  = $upload_dir . '/tf_paypal_donate_old.log';
+  $file  = $upload_dir . '/' . TFDON_CURRENT_LOG;
+  $file_old  = $upload_dir . '/' . TFDON_OLDER_LOG;
 
   if ($forceformat == "string"){
     $message = $message;

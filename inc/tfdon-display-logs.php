@@ -12,13 +12,16 @@ function tfdon_display_log_file ($what_file=null){
   $upload_dir = $upload_dir['basedir'];
   if ($what_file) {
     $file  = $upload_dir . '/' . $what_file;
-  } else { return; };
+    } 
+  else { return; };
 
-  // return if file does not exist
+  // message if file does not exist
   if (!file_exists ( $file )) {
     ?>
-    <h1 class="tfdon-page-hdr">Log file does not exist</h1>
-    <p class="tfdon-page-hdr">file name=<?php echo $file;?></p>
+    <div id="tfdon-page"> 
+      <h1 class="tfdon-page-hdr">Log file does not exist</h1>
+      <p class="tfdon-page-hdr">file name=<?php echo $file;?></p>
+    </div>
     <?php 
     return;
   }

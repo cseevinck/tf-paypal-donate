@@ -32,6 +32,7 @@ function tfdon_custom_styles() {
     }
     .form-table {
       margin: 20px;
+      width: 80%;
     }
     .tfdon_bottom {
       padding-bottom: 30px;
